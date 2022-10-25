@@ -13,16 +13,16 @@ import static com.br.bruna.Service.ProductService.createProductList;
 
 public class CrunchifyFindDuplicateCSV {
 
-    public  void main(String[] argv) {
-         var crunchifyCSVFile = this.getClass().getClassLoader().getResource("NewProducts.csv");
-
+    public static void main(String[] argv) {
+         // var crunchifyCSVFile = this.getClass().getClassLoader().getResource("NewProducts.csv");
+        String crunchifyCSVFile = "src/main/resources/NewProducts.csv";
         BufferedReader crunchifyBufferReader = null;
         String crunchifyLine = "";
 
         HashSet<String> crunchifyAllLines = new HashSet<>();
 
         try {
-            crunchifyBufferReader = new BufferedReader(new FileReader(crunchifyCSVFile.getFile()));
+            crunchifyBufferReader = new BufferedReader(new FileReader(crunchifyCSVFile));
             int repeatLines =0;
             while ((crunchifyLine = crunchifyBufferReader.readLine()) != null) {
                 if (crunchifyAllLines.add(crunchifyLine)) {
@@ -48,19 +48,20 @@ public class CrunchifyFindDuplicateCSV {
         }
     }
 
-    public  boolean crunchifyIsNullOrEmpty(String crunchifyString) {
+    public static boolean crunchifyIsNullOrEmpty(String crunchifyString) {
         if (crunchifyString != null && !crunchifyString.trim().isEmpty())
             return false;
         return true;
     }
 
-    public  void writeNewFile(String line) {
-        var path = this.getClass().getClassLoader().getResource("UpdateProducts.csv");
+    public static void writeNewFile(String line) {
+       // var path = this.getClass().getClassLoader().getResource("UpdateProducts.csv");
+        String path = "src/main/resources/UpdateProducts.csv";
 
-        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path.getFile(), true))) {
-            csvWriter.newLine();
+        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path, true))) {
+
             csvWriter.write(line);
-
+            csvWriter.newLine();
 
         } catch (
                 IOException e) {
@@ -68,10 +69,14 @@ public class CrunchifyFindDuplicateCSV {
         }
     }
 
-    public  void updatedList() {
-        var tempPath = this.getClass().getClassLoader().getResource("UpdateProducts.csv");
-        var path = this.getClass().getClassLoader().getResource("NewProducts.csv");
-        try (BufferedReader csvReader = new BufferedReader(new FileReader(path.getFile()))) {
+    public static void updatedList() {
+//        var tempPath = this.getClass().getClassLoader().getResource("UpdateProducts.csv");
+//        var path = this.getClass().getClassLoader().getResource("NewProducts.csv");
+
+        String tempPath = "src/main/resources/UpdateProducts.csv";
+        String path = "src/main/resources/NewProducts.csv";
+
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(path))) {
             String row = csvReader.readLine();
             List<Product> product = new ArrayList<>();
 
@@ -82,13 +87,13 @@ public class CrunchifyFindDuplicateCSV {
                 row = csvReader.readLine();
             }
 
-            FileChannel sourceChannel = new FileInputStream(tempPath.getFile()).getChannel();
-            FileChannel destChannel = new FileOutputStream(path.getFile()).getChannel();
+            FileChannel sourceChannel = new FileInputStream(tempPath).getChannel();
+            FileChannel destChannel = new FileOutputStream(path).getChannel();
             destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
             sourceChannel.close();
             destChannel.close();
 
-            File editFile = new File(tempPath.getFile());
+            File editFile = new File(tempPath);
             editFile.deleteOnExit();
         } catch (IOException e) {
             System.out.println("error:" + e.getMessage());

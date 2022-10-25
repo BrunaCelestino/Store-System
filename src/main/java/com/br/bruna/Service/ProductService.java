@@ -30,10 +30,10 @@ public class ProductService {
 
     private List<Product> readProductsListFromCSV() {
         List<Product> products = new ArrayList<>();
-//        String path = "C:\\Users\\Luis Felipe\\Desktop\\desafio-backend-modulo1\\src\\NewProducts.csv";
-        final var file =  getClass().getClassLoader().getResource("NewProducts.csv");
+     String path = "src/main/resources/NewProducts.csv";
+//        final var file =  this.getClass().getClassLoader().getResource("NewProducts.csv");
 
-        try (BufferedReader csvReader = new BufferedReader(new FileReader(file.getFile()))){
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(path))){
             String row = csvReader.readLine();
 
             while (row != null) {
@@ -98,9 +98,10 @@ public class ProductService {
     public void addToList(Product product) {
 
 
-//        String path = "C:\\Users\\Luis Felipe\\Desktop\\desafio-backend-modulo1\\src\\NewProducts.csv";
-        final var file = this.getClass().getClassLoader().getResource("NewProducts.csv");
-        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(file.getFile(), true))) {
+        String path = "src/main/resources/NewProducts.csv";
+//        final var file = this.getClass().getClassLoader().getResource("NewProducts.csv");
+
+        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path, true))) {
 
 
             csvWriter.write(product.getCode() + "," + product.getBarCode() + "," + product.getSerie() + "," + product.getName() + "," + product.getDescription() + "," + product.getCategory() + "," + product.getPrice() + "," + product.getTaxes() + "," + product.getFabrication() + "," + product.getExpirationDate() + "," + product.getColor() + "," + product.getMaterial() + "," + product.getQuantity()
@@ -118,11 +119,11 @@ public class ProductService {
     public  void addNewProduct(Product product) {
 
 
-//        String path = "C:\\Users\\Luis Felipe\\Desktop\\desafio-backend-modulo1\\src\\NewProducts.csv";
-        final var file =  this.getClass().getClassLoader().getResource("NewProducts.csv");
+      String path = "src/main/resources/NewProducts.csv";
+  //      final var file =  this.getClass().getClassLoader().getResource("NewProducts.csv");
 
 
-        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(file.getFile(), true))) {
+        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path, true))) {
 
 
             csvWriter.write(product.getCode() + "," + product.getBarCode() + "," + product.getSerie() + "," + product.getName() + "," + product.getDescription() + "," + product.getCategory() + "," + product.getPrice() + "," + product.getTaxes() + "," + product.getFabrication() + "," + product.getExpirationDate() + "," + product.getColor() + "," + product.getMaterial() + "," + product.getQuantity()
@@ -140,11 +141,11 @@ public class ProductService {
     public  void editList(Product product) {
 
 
-//        String path = "C:\\Users\\Luis Felipe\\Desktop\\desafio-backend-modulo1\\src\\EditProducts.csv";
-        final var file =  this.getClass().getClassLoader().getResource("EditProducts.csv");
+     String path = "src/main/resources/EditProducts.csv";
+//        final var file =  this.getClass().getClassLoader().getResource("EditProducts.csv");
 
 
-        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(file.getFile(), true))) {
+        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path, true))) {
 
 
             csvWriter.write(product.getCode() + "," + product.getBarCode() + "," + product.getSerie() + "," + product.getName() + "," + product.getDescription() + "," + product.getCategory() + "," + product.getPrice() + "," + product.getTaxes() + "," + product.getFabrication() + "," + product.getExpirationDate() + "," + product.getColor() + "," + product.getMaterial() + "," + product.getQuantity()
@@ -161,14 +162,15 @@ public class ProductService {
     public  void deleteList(Product product) {
 
 
-//        String path = "C:\\Users\\Luis Felipe\\Desktop\\desafio-backend-modulo1\\src\\EditProducts.csv";
-        final var file = this.getClass().getClassLoader().getResource("EditProducts.csv");
+   String path = "src/main/resources/EditProducts.csv";
+     //   final var file = this.getClass().getClassLoader().getResource("EditProducts.csv");
 
-        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(file.getFile(), true))) {
+        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path, true))) {
 
 
             csvWriter.write(product.getCode() + "," + product.getBarCode() + "," + product.getSerie() + "," + product.getName() + "," + product.getDescription() + "," + product.getCategory() + "," + product.getPrice() + "," + product.getTaxes() + "," + product.getFabrication() + "," + product.getExpirationDate() + "," + product.getColor() + "," + product.getMaterial() + "," + product.getQuantity()
             );
+            csvWriter.newLine();
 
 
         } catch (
@@ -180,13 +182,14 @@ public class ProductService {
 
 
     public  void editProduct(int input, int field, String information) {
-//        String tempPath = "C:\\Users\\Luis Felipe\\Desktop\\desafio-backend-modulo1\\src\\EditProducts.csv";
-//        String path = "C:\\Users\\Luis Felipe\\Desktop\\desafio-backend-modulo1\\src\\NewProducts.csv";
 
-        final var tempFile =  this.getClass().getClassLoader().getResource("EditProducts.csv");
-        final var file =  this.getClass().getClassLoader().getResource("NewProducts.csv");
+     String tempPath = "src/main/resources/EditProducts.csv";
+        String path = "src/main/resources/NewProducts.csv";
 
-        try (BufferedReader csvReader = new BufferedReader(new FileReader(file.getFile()))) {
+        //final var tempFile =  this.getClass().getClassLoader().getResource("EditProducts.csv");
+        //final var file =  this.getClass().getClassLoader().getResource("NewProducts.csv");
+
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(path))) {
             String row = csvReader.readLine();
             List<Product> product = new ArrayList<>();
             while (row != null) {
@@ -230,13 +233,15 @@ public class ProductService {
 
             }
 
-            FileChannel sourceChannel = new FileInputStream(tempFile.getFile()).getChannel();
-            FileChannel destChannel = new FileOutputStream(file.getFile()).getChannel();
+            File editFile = new File (tempPath);
+
+            FileChannel sourceChannel = new FileInputStream(tempPath).getChannel();
+            FileChannel destChannel = new FileOutputStream(path).getChannel();
             destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
             sourceChannel.close();
             destChannel.close();
 
-            File editFile = new File(tempFile.getFile());
+
             editFile.deleteOnExit();
         } catch (IOException e) {
             System.out.println("error:" + e.getMessage());
@@ -244,12 +249,12 @@ public class ProductService {
     }
 
     public  void deleteProduct(int productNumber) {
-//        String tempPath = "C:\\Users\\Luis Felipe\\Desktop\\desafio-backend-modulo1\\src\\EditProducts.csv";
-//        String path = "C:\\Users\\Luis Felipe\\Desktop\\desafio-backend-modulo1\\src\\NewProducts.csv";
+   String tempPath = "src/main/resources/EditProducts.csv";
+   String path = "src/main/resources/NewProducts.csv";
 
-        final var tempFile =  this.getClass().getClassLoader().getResource("EditProducts.csv");
-        final var file =  this.getClass().getClassLoader().getResource("NewProducts.csv");
-        try (BufferedReader csvReader = new BufferedReader(new FileReader(file.getFile()))) {
+//        final var tempFile =  this.getClass().getClassLoader().getResource("EditProducts.csv");
+//        final var file =  this.getClass().getClassLoader().getResource("NewProducts.csv");
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(path))) {
             String row = csvReader.readLine();
             List<Product> product = new ArrayList<>();
             while (row != null) {
@@ -278,13 +283,13 @@ public class ProductService {
                 deleteList(product.get(i));
             }
 
-            FileChannel sourceChannel = new FileInputStream(tempFile.getFile()).getChannel();
-            FileChannel destChannel = new FileOutputStream(file.getFile()).getChannel();
+            FileChannel sourceChannel = new FileInputStream(tempPath).getChannel();
+            FileChannel destChannel = new FileOutputStream(path).getChannel();
             destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
             sourceChannel.close();
             destChannel.close();
 
-            File editFile = new File(tempFile.getFile());
+            File editFile = new File(tempPath);
             editFile.deleteOnExit();
 
         } catch (IOException e) {
@@ -294,9 +299,9 @@ public class ProductService {
 
     public void addInventoryToProductList() {
         List<Product> products = new ArrayList<>();
-//        String path = "C:\\Users\\Luis Felipe\\Desktop\\desafio-backend-modulo1\\src\\mostruario_fabrica.csv";
-        final var file =  this.getClass().getClassLoader().getResource("mostruario_fabrica.csv");
-        try (BufferedReader csvReader = new BufferedReader(new FileReader(file.getFile()))) {
+        String path = "src/main/resources/mostruario_fabrica.csv";
+//        final var file =  this.getClass().getClassLoader().getResource("mostruario_fabrica.csv");
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(path))) {
             String row = csvReader.readLine();
 
             while (row != null) {
@@ -327,9 +332,10 @@ public class ProductService {
 
     public  void calculateFinalValue() {
         List<Product> products = new ArrayList<>();
-//        String path = "C:\\Users\\Luis Felipe\\Desktop\\desafio-backend-modulo1\\src\\newProducts.csv";
-        final var file =  this.getClass().getClassLoader().getResource("NewProducts.csv");
-        try (BufferedReader csvReader = new BufferedReader(new FileReader(file.getFile()))) {
+        String path = "src/main/resources/NewProducts.csv";
+
+       // final var file =  this.getClass().getClassLoader().getResource("NewProducts.csv");
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(path))) {
             String row = csvReader.readLine();
 
             while (row != null) {
