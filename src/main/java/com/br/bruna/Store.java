@@ -105,6 +105,7 @@ public class Store {
     public static void finishSystem() {
         System.out.flush();
         System.out.println("Até mais!");
+        CrunchifyFindDuplicateCSV.main(null);
         System.exit(0);
     }
 

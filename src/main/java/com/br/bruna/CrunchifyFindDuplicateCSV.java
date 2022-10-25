@@ -13,7 +13,7 @@ import static com.br.bruna.Service.ProductService.createProductList;
 
 public class CrunchifyFindDuplicateCSV {
 
-    public static void main(String[] argv) {
+    public static void main(String[] args) {
          // var crunchifyCSVFile = this.getClass().getClassLoader().getResource("NewProducts.csv");
         String crunchifyCSVFile = "src/main/resources/NewProducts.csv";
         BufferedReader crunchifyBufferReader = null;
